@@ -1,11 +1,9 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel
 
-from api.schemas.response import ApiResponse, success_response
-from application.documents.service import DocumentService
-from infrastructure.database.repositories.document_repository import (
-    SqlServerDocumentRepository,
-)
+from synapse.api.schemas.response import ApiResponse, success_response
+from synapse.application.documents.service import DocumentService
+from synapse.composition.dependencies import get_document_service
 
 
 router = APIRouter(
@@ -20,19 +18,16 @@ class DocumentResponse(BaseModel):
     title: str
 
 
-repository = SqlServerDocumentRepository()
-service = DocumentService(repository)
-
-
 @router.get(
     "",
     response_model=ApiResponse[list[DocumentResponse]],
 )
 def get_documents(
     request: Request,
+    service: DocumentService = Depends(get_document_service),
 ) -> ApiResponse[list[DocumentResponse]]:
 
-    documents = service.get_documents()
+    documents = service.get_all()
 
     response = [
         DocumentResponse(

@@ -2,8 +2,8 @@ from fastapi import Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from api.exceptions.exceptions import AppException
-from api.schemas.response import ApiError, error_response
+from synapse.api.exceptions.exceptions import AppException
+from synapse.api.schemas.response import ApiError, error_response
 
 
 async def app_exception_handler(

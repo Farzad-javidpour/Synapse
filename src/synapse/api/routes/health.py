@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 
-from api.exceptions.exceptions import AppException
-from api.schemas.response import ApiResponse, success_response
-from application.health.service import HealthService
+from synapse.api.exceptions.exceptions import AppException
+from synapse.api.schemas.response import ApiResponse, success_response
+from synapse.application.health.service import HealthService
 
 
 router = APIRouter(

@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 
-from api.exceptions.exceptions import AppException
-from api.exceptions.handlers import (
+from synapse.api.exceptions.exceptions import AppException
+from synapse.api.exceptions.handlers import (
     app_exception_handler,
     unhandled_exception_handler,
     validation_exception_handler,
 )
-from api.middleware.request import request_context_middleware
-from api.router import api_router
+from synapse.api.middleware.request import request_context_middleware
+from synapse.api.router import api_router
 
 
 app = FastAPI(
