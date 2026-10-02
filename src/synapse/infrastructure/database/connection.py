@@ -5,17 +5,17 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from synapse.core.config import settings
+from synapse.core.config import app_setting
 
 
 def create_sqlserver_engine() -> Engine:
 
     connection_string = (
-        f"DRIVER={{{settings.sqlserver_driver}}};"
-        f"SERVER={settings.sqlserver_host};"
-        f"DATABASE={settings.sqlserver_database};"
-        f"UID={settings.sqlserver_username};"
-        f"PWD={settings.sqlserver_password};"
+        f"DRIVER={{{app_setting.sqlserver_driver}}};"
+        f"SERVER={app_setting.sqlserver_host};"
+        f"DATABASE={app_setting.sqlserver_database};"
+        f"UID={app_setting.sqlserver_username};"
+        f"PWD={app_setting.sqlserver_password};"
         "TrustServerCertificate=yes;"
     )
     print("#"* 100)
