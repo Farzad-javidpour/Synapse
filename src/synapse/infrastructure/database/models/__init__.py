@@ -1,7 +1,7 @@
-# infrastructure/database/models/__init__.py
-
-from .document import DocumentDbModel
+from synapse.infrastructure.database.models.document import Document
+from synapse.infrastructure.database.models.document_version import DocumentVersion
 
 __all__ = [
-    "DocumentDbModel",
+    "Document",
+    "DocumentVersion",
 ]

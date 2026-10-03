@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from synapse.api.routes.health import router as health_router
-from synapse.api.routes.document import router as document_router
+from synapse.api.routes.documents import router as document_router
 from synapse.api.routes.llm import router as llm_router
 
 

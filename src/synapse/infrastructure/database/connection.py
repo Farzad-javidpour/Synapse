@@ -3,10 +3,12 @@ from urllib.parse import quote_plus
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from synapse.core.config import app_setting
 
+class Base(DeclarativeBase):
+    pass
 
 def create_sqlserver_engine() -> Engine:
 

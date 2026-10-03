@@ -1,5 +1,5 @@
-from .document_repository import SqlServerDocumentRepository
+from .document_repository import SqlDocumentRepository
 
 __all__ = [
-    "SqlServerDocumentRepository",
+    "SqlDocumentRepository",
 ]
