@@ -1,15 +1,14 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
-
-class ChatRequest(BaseModel):
-    message: str = Field(
-        ...,
-        min_length=1,
-        description="User message",
-        examples=["سلام، خودت را معرفی کن"],
-    )
-
+class TokenUsage(BaseModel):
+    input_token: int
+    output_token: int
+    total_token: int
 
 class ChatResponse(BaseModel):
+    question: str
     response: str
+    provider: str
     model: str
+    remain_token: int
+    token_usage: TokenUsage
