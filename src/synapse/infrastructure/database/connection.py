@@ -20,8 +20,6 @@ def create_sqlserver_engine() -> Engine:
         f"PWD={app_setting.sqlserver_password};"
         "TrustServerCertificate=yes;"
     )
-    print("#"* 100)
-    print(connection_string)
     connection_url = (
         "mssql+pyodbc:///?odbc_connect="
         + quote_plus(connection_string)

@@ -18,3 +18,10 @@ class DocumentService:
         return await self._repository.get_unprocessed_documents(
             limit=limit,
         )
+
+    async def get_document_text(
+        self,
+    ) -> str:
+
+        return await self._repository.get_unprocessed_documents(
+        )
