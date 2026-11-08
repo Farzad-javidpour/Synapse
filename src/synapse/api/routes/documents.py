@@ -28,17 +28,18 @@ async def get_documents(
     )
 
 @router.get(
-    "/show",
+    "/{document_id}/text",
     response_model=ApiResponse[str],
 )
-async def show(
+async def get_document_text(
+    document_id: int,
     request: Request,
     service: DocumentService = Depends(get_document_service),
 ) -> ApiResponse[str]:
 
-    documents = await service.get_documents_for_processing()
+    text = await service.get_document_text(document_id=document_id)
 
     return success_response(
         request=request,
-        data=documents,
+        data=text,
     )

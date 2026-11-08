@@ -21,7 +21,9 @@ class DocumentService:
 
     async def get_document_text(
         self,
+        document_id: int,
     ) -> str:
 
-        return await self._repository.get_unprocessed_documents(
+        return await self._repository.get_document_text(
+            document_id=document_id,
         )

@@ -34,7 +34,7 @@ class SqlDocumentRepository(IDocumentRepository):
             .limit(limit)
         )
 
-        result = self._session.execute(statement)
+        result = await self._session.execute(statement)
 
         rows = result.all()
 
@@ -42,6 +42,38 @@ class SqlDocumentRepository(IDocumentRepository):
             self._to_dto(document, version)
             for document, version in rows
         ]
+
+    async def get_document_text(
+        self,
+        document_id: int,
+    ) -> str:
+        # Fetch the current version's file_path for the document
+        statement = (
+            select(DocumentVersion.file_path)
+            .where(
+                DocumentVersion.document_id == document_id,
+                DocumentVersion.is_current == True,
+            )
+            .limit(1)
+        )
+        result = await self._session.execute(statement)
+        file_path = result.scalar_one_or_none()
+
+        if not file_path:
+            return ""
+
+        # Load and extract text from the document
+        from synapse.infrastructure.document_processing.word_loader import WordDocumentLoader
+        from synapse.infrastructure.document_processing.text_cleaner import TextCleaner
+
+        loader = WordDocumentLoader()
+        cleaner = TextCleaner()
+
+        try:
+            text = loader.load(file_path)
+            return cleaner.clean(text)
+        except Exception:
+            return ""
 
     @staticmethod
     def _to_dto(

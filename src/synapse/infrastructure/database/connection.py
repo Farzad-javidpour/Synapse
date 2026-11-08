@@ -1,17 +1,15 @@
-from collections.abc import Generator
+from collections.abc import AsyncGenerator
 from urllib.parse import quote_plus
 
-from sqlalchemy import create_engine
-from sqlalchemy.engine import Engine
-from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.orm import DeclarativeBase
 
 from synapse.core.config import app_setting
 
 class Base(DeclarativeBase):
     pass
 
-def create_sqlserver_engine() -> Engine:
-
+def create_sqlserver_engine():
     connection_string = (
         f"DRIVER={{{app_setting.sqlserver_driver}}};"
         f"SERVER={app_setting.sqlserver_host};"
@@ -21,11 +19,11 @@ def create_sqlserver_engine() -> Engine:
         "TrustServerCertificate=yes;"
     )
     connection_url = (
-        "mssql+pyodbc:///?odbc_connect="
+        "mssql+aioodbc:///?odbc_connect="
         + quote_plus(connection_string)
     )
 
-    return create_engine(
+    return create_async_engine(
         connection_url,
         pool_pre_ping=True,
         pool_size=5,
@@ -36,17 +34,13 @@ def create_sqlserver_engine() -> Engine:
 engine = create_sqlserver_engine()
 
 
-SessionLocal = sessionmaker(
+AsyncSessionLocal = async_sessionmaker(
     bind=engine,
-    class_=Session,
+    class_=AsyncSession,
     expire_on_commit=False,
 )
 
 
-def get_db_session() -> Generator[Session, None, None]:
-    session = SessionLocal()
-
-    try:
+async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
+    async with AsyncSessionLocal() as session:
         yield session
-    finally:
-        session.close()

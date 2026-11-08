@@ -11,3 +11,10 @@ class IDocumentRepository(ABC):
         limit: int = 100,
     ) -> list[DocumentDto]:
         ...
+
+    @abstractmethod
+    async def get_document_text(
+        self,
+        document_id: int,
+    ) -> str:
+        ...
